@@ -1,0 +1,111 @@
+/*1. Update refrigerator product price to 800*/
+
+UPDATE products 
+SET price = 800.00
+WHERE product_id = 7;
+
+select * from products;
+
+/*2. Remove all cart items for a specific customer*/
+
+DELETE FROM cart WHERE customer_id=2;
+
+select * from cart;
+
+/*3. Retrieve Products Priced Below $100*/
+
+SELECT * FROM products WHERE price <100;
+
+/*4. Find Products with Stock Quantity Greater Than 5*/
+
+SELECT * FROM products WHERE stockQuantity > 5;
+
+/*5. Retrieve Orders with Total Amount Between $500 and $1000*/
+
+SELECT * FROM orders WHERE  total_price BETWEEN 500 AND 1000;
+
+/*6. Find Products which name end with letter ‘r’*/
+
+SELECT * FROM products WHERE name LIKE '%r';
+
+/*7. Retrieve Cart Items for Customer 5*/
+
+SELECT * FROM cart WHERE customer_id = 5;
+
+/*8. Find Customers Who Placed Orders in 2023.*/
+
+SELECT DISTINCT customers.*
+FROM customers
+JOIN orders ON customers.customer_id=orders.customer_id
+WHERE YEAR(order_date)=2023;
+
+/*9. Determine the Minimum Stock Quantity for Each Product Category*/
+
+SELECT * FROM products WHERE stockQuantity = (SELECT MIN(stockQuantity) FROM products);
+
+/*10. Calculate the Total Amount Spent by Each Customer.*/
+
+SELECT c.customer_id,c.first_name,c.last_name,SUM(orders.total_price) AS totalAmount_spent
+FROM customers c 
+JOIN orders ON c.customer_id = orders.customer_id
+GROUP BY c.customer_id,c.first_name,c.last_name;
+
+/*11. Find the Average Order Amount for Each Customer*/
+
+SELECT c.customer_id,c.first_name,c.last_name,AVG(orders.total_price) AS AvgOrder_Amount
+FROM customers c 
+JOIN orders ON c.customer_id = orders.customer_id
+GROUP BY c.customer_id,c.first_name,c.last_name;
+
+/*12. Count the Number of Orders Placed by Each Customer*/
+
+SELECT c.customer_id,c.first_name,c.last_name,COUNT(orders.order_id) AS Order_Placed
+FROM customers c 
+JOIN orders ON c.customer_id = orders.customer_id
+GROUP BY c.customer_id,c.first_name,c.last_name;
+
+/*13. Find the Maximum Order Amount for Each Customer*/
+
+SELECT c.customer_id,c.first_name,c.last_name,MAX(orders.total_price) AS MaxOrder_Amount
+FROM customers c 
+JOIN orders ON c.customer_id = orders.customer_id
+GROUP BY c.customer_id,c.first_name,c.last_name;
+
+/*14. Get Customers Who Placed Orders Totaling Over $1000*/
+
+SELECT c.customer_id,c.first_name,c.last_name,SUM(orders.total_price) AS total_amount
+FROM customers c 
+JOIN orders ON c.customer_id = orders.customer_id
+GROUP BY c.customer_id,c.first_name,c.last_name
+HAVING total_amount > 1000;
+
+/*15. Subquery to Find Products Not in the Cart*/
+
+SELECT * FROM products 
+WHERE product_id NOT IN (SELECT DISTINCT product_id FROM cart);
+
+/*16. Subquery to Find Customers Who Haven't Placed Orders*/
+
+SELECT * FROM customers
+WHERE customer_id NOT IN (SELECT DISTINCT customer_id FROM orders);
+
+/*17. Subquery to Calculate the Percentage of Total Revenue for a Product*/
+
+SELECT product_id,(SUM(itemAmount) / (SELECT SUM(total_price) FROM orders)) * 100 AS revenue_percentage
+FROM order_items
+GROUP BY product_id;
+
+/*18. Subquery to Find Products with Low Stock*/
+
+SELECT * FROM products
+WHERE stockQuantity = (SELECT MIN(stockQuantity) FROM products);
+
+/*19. Subquery to Find Customers Who Placed High-Value Orders.*/
+
+SELECT customer_id, first_name
+FROM customers
+WHERE customer_id IN (
+    SELECT DISTINCT customer_id 
+    FROM orders
+    WHERE total_price > (SELECT AVG(total_price) FROM orders)
+);
