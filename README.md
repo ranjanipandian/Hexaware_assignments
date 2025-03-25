@@ -1,2 +1,2 @@
 # Hexaware_assignments
-The SQL challenge question on the topic Ecommerce
+The SQL challenge querys and the output on the topic Ecommerce
