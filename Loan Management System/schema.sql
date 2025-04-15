@@ -1,3 +1,6 @@
+CREATE DATABASE LoanManagement;
+USE LoanManagement;
+
 CREATE TABLE customer (
     customerId INT PRIMARY KEY,
     name VARCHAR(50),
