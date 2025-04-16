@@ -29,7 +29,7 @@ public class MainModule {
             try {
                 switch (choice) {
                     case 1:
-                        Customer cust = new Customer(1, "Bala", "bala@email.com", "9999999999", "Chennai", 720);
+                        Customer cust = new Customer(1, "Ranjani", "ranjanipandian02@gmail.com", "9876543210", "Coimbatore", 720);
                         HomeLoan loan = new HomeLoan(1001, cust, 500000, 7.5, 60, "Pending", "Chennai", 800000);
                         System.out.print("Confirm apply loan? (yes/no): ");
                         if (sc.next().equalsIgnoreCase("yes")) {
