@@ -1,0 +1,38 @@
+//Db Creation
+CREATE DATABASE ProjectManagement;
+USE ProjectManagement;
+
+//Tables Creation
+//Project Table:
+CREATE TABLE Project (
+    projectId INT PRIMARY KEY AUTO_INCREMENT,
+    projectName VARCHAR(100) NOT NULL,
+    description TEXT,
+    startDate DATE,
+    status VARCHAR(50)
+);
+
+//Employee Table:
+CREATE TABLE Employee (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    designation VARCHAR(100),
+    gender VARCHAR(10),
+    salary DOUBLE,
+    projectId INT,
+    FOREIGN KEY (projectId) REFERENCES Project(projectId)
+        ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+//Task Table:
+CREATE TABLE Task (
+    taskId INT PRIMARY KEY AUTO_INCREMENT,
+    taskName VARCHAR(100) NOT NULL,
+    projectId INT,
+    employeeId INT,
+    status VARCHAR(50),
+    FOREIGN KEY (projectId) REFERENCES Project(projectId)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (employeeId) REFERENCES Employee(id)
+        ON DELETE SET NULL ON UPDATE CASCADE
+);
